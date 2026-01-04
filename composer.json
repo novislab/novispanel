@@ -10,6 +10,12 @@
         "forge-alternative"
     ],
     "license": "MIT",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/novislab/flux-pro"
+        }
+    ],
     "require": {
         "php": "^8.4",
         "laravel/framework": "^12.0",
@@ -17,7 +23,8 @@
         "laravel/telescope": "^5.16",
         "laravel/tinker": "^2.10.1",
         "livewire/blaze": "^1.0@beta",
-        "livewire/flux": "^2.10",
+        "livewire/flux": "^2.6.2",
+        "livewire/flux-pro": "dev-main",
         "livewire/livewire": "^3.7",
         "spatie/laravel-permission": "^6.24",
         "spatie/ssh": "^1.13"
