@@ -9,10 +9,16 @@
         <flux:sidebar.nav>
             <flux:sidebar.item icon="squares-2x2" href="{{ route('dashboard') }}" :current="request()->routeIs('dashboard')">
                 Dashboard</flux:sidebar.item>
+            <flux:sidebar.item icon="calendar" href="#">Calendar</flux:sidebar.item>
+            <flux:sidebar.group expandable icon="star" heading="Favorites" class="grid">
+                <flux:sidebar.item href="#">Marketing site</flux:sidebar.item>
+                <flux:sidebar.item href="#">Android app</flux:sidebar.item>
+                <flux:sidebar.item href="#">Brand guidelines</flux:sidebar.item>
+            </flux:sidebar.group>
         </flux:sidebar.nav>
         <flux:sidebar.spacer />
         <flux:dropdown position="top" align="start" class="max-lg:hidden">
-            <flux:sidebar.profile iconTrailing='chevron-up-down' circle avatar="https://fluxui.dev/img/demo/user.png" name="Olivia Martin" />
+            <flux:sidebar.profile iconTrailing='chevron-up-down' avatar="https://fluxui.dev/img/demo/user.png" name="Olivia Martin" />
             <flux:navmenu>
                 <div class="flex items-start justify-between rounded-lg">
                     <div class="flex flex-col">
@@ -35,7 +41,7 @@
         <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
         <flux:spacer />
         <flux:dropdown position="top" align="start">
-            <flux:profile iconTrailing='chevron-up-down' circle avatar="/img/demo/user.png" />
+            <flux:profile iconTrailing='chevron-up-down' avatar="/img/demo/user.png" />
             <flux:navmenu>
                 <div class="flex items-start justify-between rounded-lg">
                     <div class="flex flex-col">
