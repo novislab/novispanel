@@ -2,31 +2,67 @@
 
 namespace App\Livewire;
 
+use Flux\Flux;
 use Illuminate\Support\Facades\Auth;
-use Livewire\Attributes\Validate;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Str;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 
+#[Title('Sign in')]
 class Login extends Component
 {
-    #[Validate('required|email')]
     public string $email = '';
-
-    #[Validate('required|min:6')]
     public string $password = '';
-
     public bool $remember = false;
 
     public function login(): void
     {
-        $this->validate();
+        $this->ensureIsNotRateLimited();
 
-        if (Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
-            request()->session()->regenerate();
+        $this->validate([
+            'email' => 'required|email',
+            'password' => 'required|min:6',
+        ]);
 
-            $this->redirect(route('dashboard'), navigate: true);
+        if (! Auth::attempt(
+            ['email' => $this->email, 'password' => $this->password],
+            $this->remember
+        )) {
+            RateLimiter::hit($this->throttleKey(), 60);
+            Flux::toast('Invalid credentials. Please try again.', variant: 'danger');
+            return;
         }
 
-        $this->addError('email', 'The provided credentials do not match our records.');
+        RateLimiter::clear($this->throttleKey());
+        request()->session()->regenerate();
+
+        $this->redirect(route('dashboard'), navigate: true);
+    }
+
+    protected function ensureIsNotRateLimited(): void
+    {
+        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
+            return;
+        }
+
+        $seconds = RateLimiter::availableIn($this->throttleKey());
+
+        Flux::toast(
+            "Too many login attempts. Please try again in {$seconds} seconds.",
+            variant: 'danger'
+        );
+
+        throw new \Illuminate\Validation\ValidationException(
+            validator: validator([], []),
+            errorBag: 'default',
+            response: null
+        );
+    }
+
+    protected function throttleKey(): string
+    {
+        return Str::transliterate(Str::lower($this->email) . '|' . request()->ip());
     }
 
     public function render()
