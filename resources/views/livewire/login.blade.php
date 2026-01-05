@@ -1,5 +1,5 @@
 <div class="min-h-screen flex items-center justify-center">
-    <flux:card class="space-y-6 w-full max-w-md">
+    <flux:card class="space-y-6 w-full max-w-md bg-zinc-50 dark:bg-zinc-900">
         <div class="flex justify-center opacity-50">
                 <a href="/" wire:navigate class="group flex items-center gap-3">
                     <div>

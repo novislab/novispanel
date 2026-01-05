@@ -5,7 +5,7 @@
     @include('partials.head')
 </head>
 
-<body class="min-h-screen bg-white dark:bg-zinc-800 antialiased">
+<body class="min-h-screen bg-white dark:bg-zinc-950 antialiased">
     @include('partials.sidebar')
     <flux:main>
         {{ $slot }}
